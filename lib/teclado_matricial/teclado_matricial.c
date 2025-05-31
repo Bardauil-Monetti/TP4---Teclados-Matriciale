@@ -10,13 +10,9 @@ char tecMat[4][4]={
 
 
 void teclado_matricial_init(){
-    int tecMat1 [4][4]{ //ERROR: Pide ";" pero esta puesto
-        {1, 1, 1, 1},
-        {1, 1, 1, 1},
-        {1, 1, 1, 1},
-        {1, 1, 1, 1},
-};
-    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+    
+    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN; // Habilito el reloj del puerto A
+
     //pongo las filas en 1 lógico
     GPIOA->CRL &= ~(0xF<<(f1* 4));    // f1 SI esta definido (en "teclado_matricial.h")
     GPIOA->CRL |=  (1 << (f1 * 4));
@@ -52,20 +48,19 @@ void teclado_matricial_init(){
     GPIOA->BSRR |=  (1<< c4);
 
 }
-int teclado_matricial(int f1, int f2, int f3, int f4){
-    for(i=0 ;i < 4 ;i++){//filas
-        for(j=0; j < 4; j++){//columnas
-            int tecMat1 [i][j] = 0;
-            if(GPIOA -> IDR & (1<<j) == 0){//si la lectura del GPIOA = 0 en alguna columna
-                input [i][j];//se guardan las coordenadas en el vector "input"
-                tecMat=input;//uso las coordenadas obtenidas para que mi vectro bidimensional de char ubique el valor que debe adoptar
+char teclado_matricial(int f1, int f2, int f3, int f4, int c1, int c2, int c3, int c4)
+{
+    int filas[4] = {f1, f2, f3, f4};
+    int columnas[4] = {c1, c2, c3, c4};
+    for(int f=0; f<4; f++){ //escaneo filas
+        GPIOA -> BSRR |= (1 << filas[f]) 
+        for (int c = 0; c < 4; c++) { //escaneo columnas
+            if ((GPIOA->IDR & (1 << columnas[c]) == 0)  {
+                return tecMac[f][c];
             }
         }
+        GPIOA->BSRR |= (1 << filas[f]+16);//prendo la fila
 }
-return 0;
+    return'x';
 }
-
-
-
-
 
